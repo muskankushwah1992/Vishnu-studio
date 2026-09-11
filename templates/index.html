@@ -21,7 +21,26 @@
     </style>
 </head>
 <body>
+<div class="card">
+    <!-- YAHAN SUCCESS MESSAGE OR WHATSAPP BUTTON ADD KAREIN -->
+    {% if success_message %}
+      <div style="background: #1e3a29; border: 1px solid #25d366; color: #d4edda; padding: 15px; margin-bottom: 20px; border-radius: 8px; text-align: center;">
+        <h3 style="color: #25d366; margin-bottom: 8px;">{{ success_message }}</h3>
+        <p style="font-size: 13px; color: #ccc; margin-bottom: 12px;">Aapki booking save ho chuki hai. WhatsApp par details bhejne ke liye niche click karein:</p>
+        <a href="{{ whatsapp_url }}" target="_blank" style="background: #25d366; color: #121212; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">
+          💬 Send Details to WhatsApp
+        </a>
+      </div>
+      <script>
+        setTimeout(function() {
+            window.open("{{ whatsapp_url }}", "_blank");
+        }, 800);
+      </script>
+    {% endif %}
+    <!-- SUCCESS MESSAGE END -->
 
+    <h1>VISHNU STUDIO</h1>
+    <p class="subtitle">Wedding, Photography & Custom Gift Printing</p>
 <div class="card">
     <h1>VISHNU STUDIO</h1>
     <p class="subtitle">Wedding, Photography & Custom Gift Printing</p>
