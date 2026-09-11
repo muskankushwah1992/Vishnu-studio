@@ -13,6 +13,7 @@ def init_db():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             phone TEXT NOT NULL,
+            email TEXT,
             category TEXT,
             service TEXT NOT NULL,
             shoot_date TEXT,
@@ -30,8 +31,6 @@ def home():
 
 
 @app.route('/book', methods=['POST'])
-
-@app.route('/book', methods=['POST'])
 def book():
     name = request.form.get('name')
     phone = request.form.get('phone')
@@ -44,7 +43,6 @@ def book():
     conn = sqlite3.connect('studio.db')
     cursor = conn.cursor()
     
-    # Table creation with email column just in case
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS bookings (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -74,6 +72,7 @@ def book():
 
     return render_template('index.html', success_message="Booking Successful!", whatsapp_url=whatsapp_url)
 
+
 @app.route('/admin-dashboard')
 def admin_dashboard():
     conn = sqlite3.connect('studio.db')
@@ -83,7 +82,7 @@ def admin_dashboard():
     conn.close()
     return render_template('admin.html', bookings=all_bookings)
 
+
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
-    
