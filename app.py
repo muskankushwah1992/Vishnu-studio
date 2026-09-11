@@ -64,7 +64,7 @@ def book():
     ''', (name, phone, email, category, service, shoot_date, address))
     conn.commit()
     conn.close()
-    studio_email = "studiovishnu2@gmail.com"
+
     studio_whatsapp = "918909158011"
     whatsapp_message = f"New Booking Received!\nName: {name}\nPhone: {phone}\nEmail: {email}\nCategory: {category}\nService: {service}\nDate: {shoot_date}\nAddress: {address}"
     
