@@ -28,7 +28,9 @@ init_db()
 def home():
     return render_template('index.html')
 
+
 @app.route('/book', methods=['POST'])
+
 def book():
     name = request.form.get('name')
     phone = request.form.get('phone')
@@ -46,7 +48,15 @@ def book():
     conn.commit()
     conn.close()
 
-    return redirect(url_for('home'))
+    studio_whatsapp = "918909158011"
+    
+    whatsapp_message = f"New Booking Received!\nName: {name}\nPhone: {phone}\nCategory: {category}\nService: {service}\nDate: {shoot_date}\nAddress: {address}"
+    
+    import urllib.parse
+    encoded_message = urllib.parse.quote(whatsapp_message)
+    whatsapp_url = f"https://api.whatsapp.com/send?phone={studio_whatsapp}&text={encoded_message}"
+
+    return render_template('index.html', success_message="Booking Successful!", whatsapp_url=whatsapp_url)
 
 @app.route('/admin-dashboard')
 def admin_dashboard():
