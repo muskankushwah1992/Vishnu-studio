@@ -31,9 +31,11 @@ def home():
 
 @app.route('/book', methods=['POST'])
 
+@app.route('/book', methods=['POST'])
 def book():
     name = request.form.get('name')
     phone = request.form.get('phone')
+    email = request.form.get('email')
     category = request.form.get('category')
     service = request.form.get('service')
     shoot_date = request.form.get('shoot_date')
@@ -41,16 +43,30 @@ def book():
 
     conn = sqlite3.connect('studio.db')
     cursor = conn.cursor()
+    
+    # Table creation with email column just in case
     cursor.execute('''
-        INSERT INTO bookings (name, phone, category, service, shoot_date, address)
-        VALUES (?, ?, ?, ?, ?, ?)
-    ''', (name, phone, category, service, shoot_date, address))
+        CREATE TABLE IF NOT EXISTS bookings (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            phone TEXT NOT NULL,
+            email TEXT,
+            category TEXT,
+            service TEXT NOT NULL,
+            shoot_date TEXT,
+            address TEXT
+        )
+    ''')
+    
+    cursor.execute('''
+        INSERT INTO bookings (name, phone, email, category, service, shoot_date, address)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ''', (name, phone, email, category, service, shoot_date, address))
     conn.commit()
     conn.close()
-
+    studio_email = "studiovishnu2@gmail.com"
     studio_whatsapp = "918909158011"
-    
-    whatsapp_message = f"New Booking Received!\nName: {name}\nPhone: {phone}\nCategory: {category}\nService: {service}\nDate: {shoot_date}\nAddress: {address}"
+    whatsapp_message = f"New Booking Received!\nName: {name}\nPhone: {phone}\nEmail: {email}\nCategory: {category}\nService: {service}\nDate: {shoot_date}\nAddress: {address}"
     
     import urllib.parse
     encoded_message = urllib.parse.quote(whatsapp_message)
